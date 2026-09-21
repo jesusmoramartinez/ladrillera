@@ -51,6 +51,15 @@ export function notFoundHandler(req, res, next) {
  */
 // eslint-disable-next-line no-unused-vars
 export function errorHandler(err, req, res, next) {
+  // Errores de Zod que se hayan escapado del middleware validate() -> 400
+  if (err?.name === 'ZodError') {
+    return res.status(400).json({
+      ok: false,
+      error: 'Datos invalidos',
+      detalles: err.issues.map((i) => ({ campo: i.path.join('.'), mensaje: i.message })),
+    });
+  }
+
   // Errores de validacion de Mongoose -> 400 (el cliente mando algo invalido)
   if (err?.name === 'ValidationError') {
     return res.status(400).json({

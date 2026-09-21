@@ -66,6 +66,14 @@ export const env = {
   // Zona horaria del negocio. Las fechas de negocio se guardan como texto
   // "YYYY-MM-DD" en hora de Paraguay (plan, punto 5.4).
   timezone: opcional('TZ_NEGOCIO', 'America/Asuncion'),
+
+  // Clave con la que el servidor FIRMA los tokens de login. Si cambia, todos
+  // los tokens ya entregados dejan de valer (util si sospechas una filtracion).
+  jwtSecret: requerida('JWT_SECRET'),
+
+  // Cuanto dura la sesion antes de tener que volver a entrar.
+  // 30 dias: el dueno usa la app todos los dias desde su propio celular.
+  jwtExpiresIn: opcional('JWT_EXPIRES_IN', '30d'),
 };
 
 // Atajos comodos para escribir `if (env.isDev)` en vez de comparar textos.

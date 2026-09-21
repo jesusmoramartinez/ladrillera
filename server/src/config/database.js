@@ -60,7 +60,12 @@ export async function conectarBaseDeDatos() {
     serverSelectionTimeoutMS: 10_000,
   });
 
-  console.log(`[mongo] Conectado a la base "${mongoose.connection.name}".`);
+  // Mostramos tambien el HOST: el nombre de la base suele ser el mismo en
+  // desarrollo y en produccion, asi que sin el host es facil creer que estas
+  // trabajando contra una base cuando en realidad estas contra otra.
+  console.log(
+    `[mongo] Conectado a "${mongoose.connection.name}" en ${mongoose.connection.host}.`,
+  );
   return mongoose.connection;
 }
 

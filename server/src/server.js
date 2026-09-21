@@ -25,6 +25,22 @@ async function iniciar() {
       console.log(`[api] Entorno: ${env.nodeEnv}`);
     });
 
+    // EADDRINUSE = el puerto ya esta ocupado, casi siempre por otro "npm run
+    // dev" que quedo abierto. Sin este aviso el sintoma es confuso: le pegas a
+    // localhost:4000 y te contesta el servidor VIEJO, con la configuracion
+    // vieja, y jurarias que tus cambios no se aplican.
+    server.on('error', (error) => {
+      if (error.code === 'EADDRINUSE') {
+        console.error(`
+[api] El puerto ${env.port} ya esta ocupado.`);
+        console.error('[api] Seguramente hay otro servidor corriendo. Cerralo, o');
+        console.error('[api] cambia PORT en server/.env.
+');
+        process.exit(1);
+      }
+      throw error;
+    });
+
     // SIGINT = Ctrl+C.  SIGTERM = el hosting pidiendo que nos apaguemos.
     for (const senal of ['SIGINT', 'SIGTERM']) {
       process.on(senal, async () => {
