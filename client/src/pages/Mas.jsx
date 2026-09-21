@@ -16,7 +16,7 @@ import { useAuth } from '../context/useAuth.js';
 const secciones = [
   { a: '/empleados', texto: 'Empleados', detalle: 'Nombres, roles y tarifas' },
   { a: '/stock', texto: 'Stock', detalle: 'Arcilla, lena y ladrillos' },
-  { texto: 'Clientes', detalle: 'Lista y saldos', fase: 6 },
+  { a: '/clientes', texto: 'Clientes', detalle: 'Lista y saldos' },
   { texto: 'Adelantos', detalle: 'Plata entregada a cuenta', fase: 7 },
   { texto: 'Liquidacion', detalle: 'Sueldos de la semana', fase: 8 },
   { texto: 'Ajustes', detalle: 'Listas de precio, categorias, contrasena', fase: 10 },

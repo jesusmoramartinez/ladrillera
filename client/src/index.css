@@ -636,3 +636,86 @@ body {
   font-weight: 600;
   white-space: nowrap;
 }
+
+/* --- Fase 6: ventas y clientes ------------------------------------------- */
+
+/* Pestanas Por cobrar / Por entregar / Todas.
+   Van pegadas al ancho completo y no como botones sueltos: en el celular, tres
+   destinos del mismo tamano se tocan sin mirar. */
+.pestanas {
+  display: flex;
+  gap: 4px;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 4px;
+}
+
+.pestana {
+  flex: 1;                          /* las tres miden lo mismo */
+  min-height: 44px;
+  border: none;
+  border-radius: calc(var(--radio) - 4px);
+  background: transparent;
+  color: var(--color-texto-tenue);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pestana--activa {
+  background: var(--color-primario-suave);
+  color: var(--color-primario-oscuro);
+}
+
+/* La etiqueta de "pendiente" / "parcial". Usa el mismo terracota del sistema
+   en vez del rojo de error: una venta pendiente no es un error, es el estado
+   normal de un pedido. */
+.etiqueta--aviso {
+  background: var(--color-primario-suave);
+  border-color: var(--color-primario);
+  color: var(--color-primario-oscuro);
+}
+
+/* Los historiales de pagos y entregas, adentro de una tarjeta que ya tiene su
+   propio margen. */
+.lista--compacta {
+  gap: 4px;
+  margin: 4px 0;
+}
+
+.lista--compacta .lista-fila {
+  padding: 8px 12px;
+}
+
+/* El nombre del cliente es un boton que navega, pero tiene que verse como el
+   titulo de la fila y no como un boton. Se saca todo el estilo de <button> y
+   se deja solo el subrayado al tocarlo. */
+.boton-invisible {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--color-borde);
+  text-underline-offset: 3px;
+}
+
+/* El cartelito de "estas viendo solo a un cliente". Sin esto, una lista
+   filtrada se confunde con una lista vacia. */
+.filtro-activo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio);
+  background: var(--color-primario-suave);
+  border-radius: var(--radio);
+  padding: 8px 8px 8px 14px;
+  font-size: 0.95rem;
+  color: var(--color-primario-oscuro);
+}

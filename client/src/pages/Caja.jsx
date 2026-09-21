@@ -5,8 +5,9 @@
 // saldo inicial ni acumulado. Es lo que el dueno realmente quiere saber:
 // "este mes, ¿gane o perdi?".
 //
-// Los ingresos van a empezar a aparecer solos con los pagos de ventas (fase 6).
-// Por ahora lo unico que entra a mano son los gastos.
+// Los ingresos aparecen solos: los genera cada pago de venta (fase 6). Lo unico
+// que entra a mano son los gastos. Por eso un ingreso no se puede anular desde
+// acá: hay que anular el pago que lo genero, y el ingreso se va con el.
 // -----------------------------------------------------------------------------
 
 import { useEffect, useState } from 'react';

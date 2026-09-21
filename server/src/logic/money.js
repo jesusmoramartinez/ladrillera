@@ -98,3 +98,12 @@ export function formatearGsSimple(valor) {
   if (!Number.isFinite(valor)) return '';
   return `Gs ${formateadorGs.format(valor)}`;
 }
+
+/**
+ * El mismo formateo pero sin el "Gs": para cantidades que no son plata
+ * (ladrillos, camiones). 4500 -> "4.500".
+ */
+export function formatearNumero(valor) {
+  if (!Number.isFinite(valor)) return '';
+  return formateadorGs.format(valor);
+}

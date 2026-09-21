@@ -47,3 +47,12 @@ export async function obtenerConfig() {
   const { config } = await api.get('/settings');
   return config;
 }
+
+/**
+ * GET /api/price-lists — las listas de precio para vender (fase 6).
+ * Vienen ordenadas con la predeterminada primero.
+ */
+export async function listarListasPrecio() {
+  const { listas } = await api.get('/price-lists');
+  return listas;
+}

@@ -224,8 +224,9 @@ export function Stock() {
           </div>
         </dl>
         <p className="campo-ayuda">
-          "Comprometido" son los ladrillos ya vendidos que faltan entregar. Empieza
-          a moverse con las ventas, en la fase 6.
+          "Comprometido" son los ladrillos ya vendidos que faltan entregar, y
+          "libre" es lo que queda para vender. El libre puede quedar en
+          negativo: significa que hay mas vendido que fabricado.
         </p>
       </section>
 

@@ -18,6 +18,7 @@
 // -----------------------------------------------------------------------------
 
 import { ApiError } from '../middleware/errorHandler.js';
+import { formatearGsSimple, formatearNumero } from '../logic/money.js';
 import { Client } from '../models/Client.js';
 import { Sale } from '../models/Sale.js';
 
@@ -96,8 +97,11 @@ export async function eliminar(id) {
 
   if (resumen) {
     const partes = [];
-    if (resumen.porCobrar > 0) partes.push(`debe ${resumen.porCobrar} Gs`);
-    if (resumen.porEntregar > 0) partes.push(`espera ${resumen.porEntregar} ladrillos`);
+    // Formateado: "debe 4500000 Gs" obliga a contar ceros con el dedo.
+    if (resumen.porCobrar > 0) partes.push(`debe ${formatearGsSimple(resumen.porCobrar)}`);
+    if (resumen.porEntregar > 0) {
+      partes.push(`espera ${formatearNumero(resumen.porEntregar)} ladrillos`);
+    }
 
     throw new ApiError(
       409,
