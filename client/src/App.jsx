@@ -21,8 +21,8 @@ import Adelantos from './pages/Adelantos.jsx';
 import Caja from './pages/Caja.jsx';
 import Clientes from './pages/Clientes.jsx';
 import Empleados from './pages/Empleados.jsx';
-import EnConstruccion from './pages/EnConstruccion.jsx';
 import Inicio from './pages/Inicio.jsx';
+import Liquidacion from './pages/Liquidacion.jsx';
 import Login from './pages/Login.jsx';
 import Produccion from './pages/Produccion.jsx';
 import Mas from './pages/Mas.jsx';
@@ -59,16 +59,7 @@ export default function App() {
         <Route path="/clientes" element={<Clientes />} />
         <Route path="/adelantos" element={<Adelantos />} />
 
-        <Route
-          path="/liquidacion"
-          element={
-            <EnConstruccion
-              titulo="Liquidacion"
-              fase={8}
-              descripcion="Sueldos de la semana: bruto, adelantos, deuda arrastrada y neto a pagar."
-            />
-          }
-        />
+        <Route path="/liquidacion" element={<Liquidacion />} />
       </Route>
 
       {/* Cualquier otra URL vuelve al inicio */}

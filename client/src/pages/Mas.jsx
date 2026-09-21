@@ -18,7 +18,7 @@ const secciones = [
   { a: '/stock', texto: 'Stock', detalle: 'Arcilla, lena y ladrillos' },
   { a: '/clientes', texto: 'Clientes', detalle: 'Lista y saldos' },
   { a: '/adelantos', texto: 'Adelantos', detalle: 'Plata entregada a cuenta' },
-  { texto: 'Liquidacion', detalle: 'Sueldos de la semana', fase: 8 },
+  { a: '/liquidacion', texto: 'Liquidacion', detalle: 'Sueldos de la semana' },
   { texto: 'Ajustes', detalle: 'Listas de precio, categorias, contrasena', fase: 10 },
 ];
 

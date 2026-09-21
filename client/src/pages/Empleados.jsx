@@ -25,7 +25,7 @@ import {
 } from '../api/employees.js';
 import { formatearGs } from '../utils/format.js';
 
-const FORMULARIO_VACIO = { nombre: '', rol: '', tarifaPorMil: 0, activo: true };
+const FORMULARIO_VACIO = { nombre: '', rol: '', telefono: '', tarifaPorMil: 0, activo: true };
 
 export function Empleados() {
   const [empleados, setEmpleados] = useState([]);
@@ -98,6 +98,7 @@ export function Empleados() {
     setFormulario({
       nombre: empleado.nombre,
       rol: empleado.rol ?? '',
+      telefono: empleado.telefono ?? '',
       tarifaPorMil: empleado.tarifaPorMil,
       activo: empleado.activo,
     });
@@ -218,6 +219,7 @@ export function Empleados() {
                 <p className="texto-tenue">
                   {empleado.rol ? `${empleado.rol} · ` : ''}
                   {formatearGs(empleado.tarifaPorMil)} por millar
+                  {empleado.telefono ? ` · ${empleado.telefono}` : ''}
                 </p>
               </div>
 
@@ -275,6 +277,17 @@ export function Empleados() {
               onChange={(e) => setFormulario({ ...formulario, rol: e.target.value })}
               error={erroresCampo.rol}
               placeholder="cortador, cargador..."
+            />
+
+            <CampoTexto
+              etiqueta="Celular (opcional)"
+              type="tel"
+              inputMode="tel"
+              value={formulario.telefono}
+              onChange={(e) => setFormulario({ ...formulario, telefono: e.target.value })}
+              error={erroresCampo.telefono}
+              placeholder="0981 123 456"
+              ayuda="Para mandarle el ticket de la semana por WhatsApp."
             />
 
             <InputGs

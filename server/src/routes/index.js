@@ -26,6 +26,7 @@ import {
 } from './inventory.routes.js';
 import productionRoutes from './production.routes.js';
 import advanceRoutes from './advance.routes.js';
+import payrollRoutes from './payroll.routes.js';
 import { clientRouter, saleRouter } from './sale.routes.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 
@@ -58,8 +59,7 @@ router.use('/productions', productionRoutes);
 router.use('/clients', clientRouter);
 router.use('/sales', saleRouter);
 router.use('/advances', advanceRoutes);
+router.use('/payrolls', payrollRoutes);
 
-// Proximas fases (ya nacen protegidas):
-// router.use('/payrolls', payrollsRoutes);         // fase 8
 
 export default router;

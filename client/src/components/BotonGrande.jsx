@@ -15,7 +15,7 @@
 
 /**
  * @param {object} props
- * @param {'primario'|'secundario'|'peligro'} [props.variante]
+ * @param {'primario'|'secundario'|'peligro'|'whatsapp'} [props.variante]
  * @param {boolean} [props.cargando]  muestra "..." y bloquea el boton
  * @param {boolean} [props.ancho]     ocupa todo el ancho disponible
  */

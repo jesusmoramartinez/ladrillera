@@ -80,6 +80,10 @@ Todo lo que cuelga de `/api` requiere token, salvo `/api/health` y
 | GET | `/api/advances?semana=YYYY-MM-DD` | Adelantos de la semana + resumen por empleado |
 | POST | `/api/advances` | Dar adelanto (genera el egreso de caja) |
 | DELETE | `/api/advances/:id` | Anular (anula su egreso) |
+| GET | `/api/payrolls/preview?semana=YYYY-MM-DD` | Liquidación de la semana (no guarda nada) |
+| POST | `/api/payrolls/:semana/pagar` | Cerrar la semana: egreso de sueldos + marca lo liquidado |
+| GET | `/api/payrolls` | Historial de semanas liquidadas |
+| GET | `/api/payrolls/:id/ticket/:employeeId` | Ticket + texto y número listos para WhatsApp |
 
 ## Scripts
 

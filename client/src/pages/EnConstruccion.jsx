@@ -23,3 +23,7 @@ export function EnConstruccion({ titulo, fase, descripcion }) {
 }
 
 export default EnConstruccion;
+
+// Nota: desde la fase 8 no hay ninguna ruta usando este componente — todas las
+// pantallas de la barra inferior y del menu "Mas" ya existen de verdad. Queda
+// para la fase 10 (Ajustes), que es el ultimo modulo que falta.

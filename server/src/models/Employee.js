@@ -32,6 +32,21 @@ const employeeSchema = new mongoose.Schema(
       maxlength: [40, 'El rol es demasiado largo'],
       default: '',
     },
+    // Fase 8: para mandarle el ticket de la semana por WhatsApp.
+    //
+    // Se guarda TEXTO y no numero, igual que en Client: "0981 123 456" tiene
+    // espacios, "+595..." tiene un signo, y un cero adelante se perderia
+    // (0981 guardado como numero es 981). Nunca se hacen cuentas con un
+    // telefono.
+    //
+    // Es opcional: el sistema tiene que seguir funcionando igual para un
+    // empleado sin celular. Lo unico que no va a poder es recibir el ticket.
+    telefono: {
+      type: String,
+      trim: true,
+      maxlength: [30, 'El telefono es demasiado largo'],
+      default: '',
+    },
     tarifaPorMil: {
       type: Number,
       required: [true, 'La tarifa es obligatoria'],

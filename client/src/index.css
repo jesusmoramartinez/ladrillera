@@ -719,3 +719,54 @@ body {
   font-size: 0.95rem;
   color: var(--color-primario-oscuro);
 }
+
+/* --- Fase 8: liquidacion y tickets --------------------------------------- */
+
+/* Cada empleado en su propia tarjeta, no en una fila de lista: la cuenta tiene
+   cuatro lineas y necesita aire. En un celular, apretar todo junto es lo que
+   hace que alguien lea el numero de la fila de al lado. */
+.tarjeta--empleado {
+  gap: 10px;
+}
+
+/* El aviso de "semana ya liquidada". Verde y no rojo: no es un error, es que
+   esta hecho. */
+.alerta--pagada {
+  background: #e7f5ed;
+  color: #1a7f4b;
+}
+
+/* El ticket tal cual le va a llegar al empleado.
+   <pre> conserva los saltos de linea; white-space: pre-wrap ademas corta las
+   lineas largas en vez de generar scroll horizontal en el celular. */
+.ticket-texto {
+  margin: 0;
+  padding: 12px 14px;
+  background: var(--color-fondo);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  font-family: inherit;         /* la monoespaciada no aporta y se lee peor */
+  font-size: 0.92rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* El verde oficial de WhatsApp. Se usa solo en ese boton: que el color sea
+   reconocible es justamente lo que hace que no haya que leerlo. */
+.boton--whatsapp {
+  background: #25d366;
+  color: #08331a;
+  font-weight: 700;
+}
+
+.boton--whatsapp:hover:not(:disabled) {
+  background: #1eb355;
+}
+
+.boton-icono {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  vertical-align: -4px;
+}

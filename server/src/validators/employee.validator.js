@@ -23,6 +23,9 @@ const nombre = z
 
 const rol = z.string().trim().max(40, 'El rol es demasiado largo');
 
+// Fase 8: hace falta para mandarle el ticket por WhatsApp. Opcional.
+const telefono = z.string().trim().max(30, 'El telefono es demasiado largo');
+
 const tarifaPorMil = z
   .number({ message: 'La tarifa es obligatoria' })
   .int('La tarifa tiene que ser un numero entero de guaranies')
@@ -36,6 +39,7 @@ const activo = z.boolean();
 export const crearEmpleadoSchema = z.object({
   nombre,
   rol: rol.optional().default(''),
+  telefono: telefono.optional().default(''),
   tarifaPorMil,
   activo: activo.optional().default(true),
 });
@@ -57,6 +61,7 @@ export const editarEmpleadoSchema = z
   .object({
     nombre: nombre.optional(),
     rol: rol.optional(),
+    telefono: telefono.optional(),
     tarifaPorMil: tarifaPorMil.optional(),
     activo: activo.optional(),
   })
