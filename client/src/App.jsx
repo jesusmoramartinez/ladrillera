@@ -22,6 +22,7 @@ import Empleados from './pages/Empleados.jsx';
 import EnConstruccion from './pages/EnConstruccion.jsx';
 import Inicio from './pages/Inicio.jsx';
 import Login from './pages/Login.jsx';
+import Produccion from './pages/Produccion.jsx';
 import Mas from './pages/Mas.jsx';
 import Stock from './pages/Stock.jsx';
 
@@ -43,19 +44,10 @@ export default function App() {
         <Route index element={<Inicio />} />
         <Route path="/empleados" element={<Empleados />} />
         <Route path="/stock" element={<Stock />} />
+        <Route path="/produccion" element={<Produccion />} />
         <Route path="/caja" element={<Caja />} />
         <Route path="/mas" element={<Mas />} />
 
-        <Route
-          path="/produccion"
-          element={
-            <EnConstruccion
-              titulo="Produccion"
-              fase={5}
-              descripcion="Cargar los ladrillos del dia y marcar que empleados trabajaron. Descuenta arcilla y suma al stock."
-            />
-          }
-        />
         <Route
           path="/ventas"
           element={

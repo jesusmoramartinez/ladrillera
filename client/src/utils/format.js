@@ -190,3 +190,62 @@ export function desplazarMes(mesISO, pasos) {
   const mesNuevo = (total % 12) + 1;
   return `${anioNuevo}-${String(mesNuevo).padStart(2, '0')}`;
 }
+
+// ---------------------------------------------------------------------------
+// Semana de trabajo (lunes a sabado, plan 5.9)
+// ---------------------------------------------------------------------------
+// Son las mismas cuentas que hace el servidor en logic/semana.js. Estan
+// duplicadas a proposito: el frontend las necesita para mostrar la semana sin
+// tener que preguntarle al servidor en cada click de las flechitas.
+//
+// El servidor sigue siendo la autoridad: al guardar, el recalcula todo. Acá
+// solo se dibuja.
+//
+// Mismo cuidado que del otro lado: nunca `new Date('2026-09-21')`, que crea la
+// medianoche UTC y en Paraguay muestra el dia anterior. Se construye con
+// Date.UTC y se lee con getUTC*.
+
+const UN_DIA_MS = 24 * 60 * 60 * 1000;
+
+function fechaAMs(fechaISO) {
+  const [anio, mes, dia] = fechaISO.split('-').map(Number);
+  return Date.UTC(anio, mes - 1, dia);
+}
+
+function msAFecha(ms) {
+  const d = new Date(ms);
+  const mes = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const dia = String(d.getUTCDate()).padStart(2, '0');
+  return `${d.getUTCFullYear()}-${mes}-${dia}`;
+}
+
+/** Suma (o resta) dias a una fecha "YYYY-MM-DD". */
+export function sumarDias(fechaISO, dias) {
+  return msAFecha(fechaAMs(fechaISO) + dias * UN_DIA_MS);
+}
+
+/** 0 = domingo, 1 = lunes, ... 6 = sabado. */
+export function diaDeLaSemana(fechaISO) {
+  return new Date(fechaAMs(fechaISO)).getUTCDay();
+}
+
+/** El lunes y el sabado de la semana de pago a la que pertenece una fecha. */
+export function semanaDePago(fechaISO) {
+  const dia = diaDeLaSemana(fechaISO);
+  // El domingo cuenta para la semana que empieza (ver logic/semana.js).
+  const hastaElLunes = dia === 0 ? 1 : -(dia - 1);
+  const inicio = sumarDias(fechaISO, hastaElLunes);
+  return { inicio, fin: sumarDias(inicio, 5) };
+}
+
+const NOMBRES_DIA = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+
+export function nombreDelDia(fechaISO) {
+  return NOMBRES_DIA[diaDeLaSemana(fechaISO)];
+}
+
+/** "Del 21/09 al 26/09" — el titulo del selector de semana. */
+export function rangoSemanaTexto({ inicio, fin }) {
+  const corto = (f) => f.split('-').slice(1).reverse().join('/');
+  return `Del ${corto(inicio)} al ${corto(fin)}`;
+}
