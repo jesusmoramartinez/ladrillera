@@ -15,6 +15,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import { env } from './config/env.js';
+import { conectarBaseDeDatos } from './config/database.js';
 import apiRoutes from './routes/index.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
@@ -36,6 +37,18 @@ app.use(express.urlencoded({ extended: true }));
 if (!env.isTest) {
   app.use(morgan(env.isProd ? 'combined' : 'dev'));
 }
+
+// 4.5) Middleware de conexión a MongoDB para Serverless (Vercel)
+// Garantiza que la base de datos esté conectada ANTES de procesar cualquier ruta de la API
+app.use(async (req, res, next) => {
+  try {
+    await conectarBaseDeDatos();
+    next();
+  } catch (error) {
+    console.error('[mongo] Error de conexión desde middleware:', error);
+    res.status(500).json({ ok: false, error: 'Error al conectar con la base de datos' });
+  }
+});
 
 // 5) Las rutas de la API, todas bajo /api.
 app.use('/api', apiRoutes);
