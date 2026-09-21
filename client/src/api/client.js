@@ -53,6 +53,7 @@ export function alVencerSesion(callback) {
  * @param {string} ruta  ej. '/auth/login' (sin el /api)
  * @param {{ method?: string, body?: object, conToken?: boolean }} opciones
  */
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 export async function pedir(ruta, { method = 'GET', body, conToken = true } = {}) {
   const headers = {};
   if (body !== undefined) headers['Content-Type'] = 'application/json';
@@ -65,7 +66,7 @@ export async function pedir(ruta, { method = 'GET', body, conToken = true } = {}
 
   let respuesta;
   try {
-    respuesta = await fetch(`/api${ruta}`, {
+    respuesta = await fetch(`${BASE_URL}/api${ruta}`, {
       method,
       headers,
       body: body !== undefined ? JSON.stringify(body) : undefined,
