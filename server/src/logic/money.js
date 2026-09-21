@@ -76,3 +76,25 @@ export function montoPorMil(cantidad, precioPorMil) {
 export function esMontoGsValido(valor) {
   return Number.isSafeInteger(valor) && valor >= 0;
 }
+
+/**
+ * Formatea un monto para METERLO EN UN MENSAJE de error o en la descripcion de
+ * un movimiento de caja: 4500000 -> "Gs 4.500.000".
+ *
+ * OJO, no confundir con el formateo del frontend (client/src/utils/format.js).
+ * Aca no se formatea "para mostrar en pantalla": se formatea porque el texto
+ * va a quedar guardado adentro de un mensaje. Decirle al dueno "quedan 4500000"
+ * lo obliga a contar ceros con el dedo; "Gs 4.500.000" se lee de un vistazo.
+ *
+ * Intl viene incluido en Node, no hay que instalar nada. 'es-PY' usa el punto
+ * como separador de miles, que es como se escribe acá.
+ *
+ * @param {number} valor
+ * @returns {string}
+ */
+const formateadorGs = new Intl.NumberFormat('es-PY', { maximumFractionDigits: 0 });
+
+export function formatearGsSimple(valor) {
+  if (!Number.isFinite(valor)) return '';
+  return `Gs ${formateadorGs.format(valor)}`;
+}

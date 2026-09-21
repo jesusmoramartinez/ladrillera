@@ -25,6 +25,7 @@ import {
   transactionRouter,
 } from './inventory.routes.js';
 import productionRoutes from './production.routes.js';
+import { clientRouter, saleRouter } from './sale.routes.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 
 const router = Router();
@@ -53,9 +54,10 @@ router.use('/categories', categoryRouter);
 router.use('/price-lists', priceListRouter);
 router.use('/settings', settingsRouter);
 router.use('/productions', productionRoutes);
+router.use('/clients', clientRouter);
+router.use('/sales', saleRouter);
 
 // Proximas fases (ya nacen protegidas):
-// router.use('/sales', salesRoutes);               // fase 6
 // router.use('/advances', advancesRoutes);         // fase 7
 // router.use('/payrolls', payrollsRoutes);         // fase 8
 

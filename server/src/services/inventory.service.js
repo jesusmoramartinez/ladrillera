@@ -25,6 +25,8 @@ import {
 } from '../logic/inventory.js';
 import { Inventory } from '../models/Inventory.js';
 import { InventoryMovement } from '../models/InventoryMovement.js';
+// El MODELO de ventas, no su servicio: ver el comentario en obtenerStock().
+import { Sale } from '../models/Sale.js';
 import { Setting } from '../models/Setting.js';
 import * as transactionService from './transaction.service.js';
 
@@ -79,15 +81,24 @@ async function moverStock({ material, cantidad, motivo, fecha, origen, descripci
  *
  * Devuelve la arcilla en las DOS unidades: la interna (ladrillos-equivalentes,
  * que es la exacta) y en camiones (que es como la piensa el dueno).
+ *
+ * @param {import('mongoose').ClientSession} [session] para leer DENTRO de una
+ *   transaccion abierta y ver lo que esa misma transaccion acaba de escribir.
  */
-export async function obtenerStock() {
+export async function obtenerStock(session) {
   const config = await Setting.obtener();
 
-  const documentos = await Inventory.find({});
+  const documentos = await Inventory.find({}).session(session ?? null);
   const porMaterial = Object.fromEntries(documentos.map((d) => [d.material, d.cantidad]));
 
   // Si un material todavia no tiene documento, vale 0.
   const cantidades = Object.fromEntries(MATERIALES.map((m) => [m, porMaterial[m] ?? 0]));
+
+  // Los ladrillos ya vendidos y todavia no entregados (plan, seccion 5.7).
+  // Lo pregunta al MODELO y no al servicio de ventas: si le preguntara al
+  // servicio tendriamos inventory -> sales -> inventory, una importacion
+  // circular. Ver el comentario de Sale.js.
+  const comprometido = await Sale.totalComprometido(session);
 
   const alerta = alertaArcilla(
     cantidades.arcilla_pura,
@@ -108,9 +119,10 @@ export async function obtenerStock() {
       cantidad: cantidades.lena,
       unidad: config.unidadLena,
     },
-    // comprometido queda en 0 hasta la fase 6 (ventas): todavia no hay nada
-    // vendido que reservar.
-    ladrillos: stockLadrillos(cantidades.ladrillos, 0),
+    // Fase 6: el comprometido sale de las ventas. No es un numero guardado
+    // en ningun lado, es la suma de lo que falta entregar de todas las ventas
+    // vigentes, y por eso baja solo a medida que se entrega.
+    ladrillos: stockLadrillos(cantidades.ladrillos, comprometido),
     alertaArcilla: alerta,
     config: {
       ladrillosPorCamion: config.ladrillosPorCamion,

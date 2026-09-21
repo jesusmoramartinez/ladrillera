@@ -66,6 +66,17 @@ Todo lo que cuelga de `/api` requiere token, salvo `/api/health` y
 | GET | `/api/productions?semana=YYYY-MM-DD` | Producción de la semana + resumen |
 | POST | `/api/productions` | Cargar el día (descuenta arcilla, suma ladrillos) |
 | DELETE | `/api/productions/:id` | Anular (revierte el stock) |
+| GET | `/api/clients` | Clientes con su saldo (`?conSaldo=true` filtra) |
+| POST | `/api/clients` | Crear |
+| PATCH/DELETE | `/api/clients/:id` | Editar / soft delete (bloqueado si debe algo) |
+| GET | `/api/sales` | Ventas + totales (`?estado=por-cobrar\|por-entregar`, `?cliente=`) |
+| GET | `/api/sales/:id` | Una venta con sus pagos y entregas |
+| POST | `/api/sales` | Crear venta (atajos `pagadoCompleto` / `entregadoCompleto`) |
+| DELETE | `/api/sales/:id` | Anular (solo si no tiene pagos ni entregas) |
+| POST | `/api/sales/:id/pagos` | Registrar cobro (genera el ingreso de caja) |
+| DELETE | `/api/sales/:id/pagos/:pagoId` | Anular cobro (anula su ingreso) |
+| POST | `/api/sales/:id/entregas` | Registrar entrega (saca ladrillos del patio) |
+| DELETE | `/api/sales/:id/entregas/:entregaId` | Anular entrega (los devuelve) |
 
 ## Scripts
 
