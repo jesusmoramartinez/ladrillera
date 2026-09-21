@@ -113,3 +113,80 @@ export function formatearFechaHora(valorISO) {
     year: 'numeric',
   }).format(fecha);
 }
+
+/**
+ * Cantidad de material, que SI puede tener decimales (1,5 camiones).
+ *
+ * `maximumFractionDigits: 2` evita que aparezca "0,3400000000000001" cuando la
+ * division no da exacta. Como es un numero para leer y no para calcular, no
+ * pasa nada con redondear al mostrar: la cuenta de verdad se hizo con enteros
+ * en el servidor.
+ */
+const formateadorCantidad = new Intl.NumberFormat('es-PY', {
+  maximumFractionDigits: 2,
+});
+
+export function formatearCantidad(valor) {
+  if (valor === null || valor === undefined || Number.isNaN(valor)) return '';
+  return formateadorCantidad.format(valor);
+}
+
+/**
+ * "1,5" o "1.5" -> 1.5
+ *
+ * En Paraguay la coma es el separador decimal, pero el teclado del celular
+ * suele dar punto. Aceptamos los dos y nos quedamos con el ULTIMO separador
+ * que aparezca, tratando los anteriores como separadores de miles.
+ */
+export function parsearCantidad(texto) {
+  if (typeof texto === 'number') return texto;
+  if (!texto) return 0;
+
+  const limpio = String(texto).replace(/[^\d.,]/g, '');
+  if (limpio === '') return 0;
+
+  const ultimaComa = limpio.lastIndexOf(',');
+  const ultimoPunto = limpio.lastIndexOf('.');
+  const corte = Math.max(ultimaComa, ultimoPunto);
+
+  if (corte === -1) return Number(limpio) || 0;
+
+  const entera = limpio.slice(0, corte).replace(/[.,]/g, '');
+  const decimal = limpio.slice(corte + 1).replace(/[.,]/g, '');
+  const numero = Number(`${entera || '0'}.${decimal || '0'}`);
+
+  return Number.isFinite(numero) ? numero : 0;
+}
+
+/**
+ * "2026-09" -> "Septiembre 2026"
+ */
+const MESES = [
+  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+];
+
+export function formatearMes(mesISO) {
+  if (!mesISO || typeof mesISO !== 'string') return '';
+  const [anio, mes] = mesISO.split('-');
+  const nombre = MESES[Number(mes) - 1];
+  return nombre ? `${nombre} ${anio}` : mesISO;
+}
+
+/** El mes de HOY en Paraguay, como "2026-09". */
+export function mesActualISO() {
+  return hoyISO().slice(0, 7);
+}
+
+/**
+ * Corre un mes hacia adelante o hacia atras, sin usar Date.
+ * "2026-01" con -1 -> "2025-12"
+ */
+export function desplazarMes(mesISO, pasos) {
+  const [anio, mes] = mesISO.split('-').map(Number);
+  // Pasamos todo a "meses desde el ano 0" para que la cuenta sea una suma.
+  const total = anio * 12 + (mes - 1) + pasos;
+  const anioNuevo = Math.floor(total / 12);
+  const mesNuevo = (total % 12) + 1;
+  return `${anioNuevo}-${String(mesNuevo).padStart(2, '0')}`;
+}

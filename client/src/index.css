@@ -490,3 +490,97 @@ body {
     align-items: center;
   }
 }
+
+/* --- Fase 4: stock y caja ------------------------------------------------ */
+
+/* Alerta roja de arcilla (plan, seccion 5.5). Va arriba de todo porque cambia
+   lo que el dueno hace hoy: si falta arcilla, hay que ir a la cantera. */
+.alerta--roja {
+  background: var(--color-error);
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* Verde y rojo para la plata. El verde es mas oscuro que el tipico para que
+   tenga contraste suficiente sobre blanco al sol. */
+.monto-positivo {
+  color: #1a7f4b;
+}
+
+.monto-negativo {
+  color: var(--color-error);
+}
+
+/* La fila del resultado, separada del resto con una linea. */
+.lista-datos-total {
+  border-top: 1px solid var(--color-borde);
+  padding-top: 8px;
+  margin-top: 4px;
+  font-size: 1.1rem;
+}
+
+/* Selector de mes: ‹ Septiembre 2026 › */
+.selector-mes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 4px 8px;
+}
+
+.selector-mes-texto {
+  font-weight: 600;
+}
+
+.selector-mes .boton-texto {
+  font-size: 1.4rem;
+  line-height: 1;
+  min-width: 44px;
+}
+
+.selector-mes .boton-texto:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Sufijo a la derecha del campo ("camiones", "carga"). */
+.campo-con-sufijo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.campo-con-sufijo .campo-input {
+  flex: 1;
+  min-width: 0; /* sin esto, un input dentro de flex no se deja achicar */
+}
+
+.campo-sufijo {
+  color: var(--color-texto-tenue);
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+/* El <select> nativo necesita estos dos para verse como los demas campos:
+   sin appearance quedaria con el estilo crudo del sistema operativo. */
+.campo-select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-texto-tenue) 50%),
+    linear-gradient(135deg, var(--color-texto-tenue) 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(50% + 2px), calc(100% - 14px) calc(50% + 2px);
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+
+/* Con tres botones, en un celular angosto necesitan poder bajar de renglon. */
+.fila-botones--envuelve {
+  flex-wrap: wrap;
+}
+
+.fila-botones--envuelve .boton {
+  flex: 1;
+  min-width: 140px;
+}

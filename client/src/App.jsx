@@ -17,11 +17,13 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout.jsx';
 import { RutaProtegida } from './components/RutaProtegida.jsx';
+import Caja from './pages/Caja.jsx';
 import Empleados from './pages/Empleados.jsx';
 import EnConstruccion from './pages/EnConstruccion.jsx';
 import Inicio from './pages/Inicio.jsx';
 import Login from './pages/Login.jsx';
 import Mas from './pages/Mas.jsx';
+import Stock from './pages/Stock.jsx';
 
 export default function App() {
   return (
@@ -40,6 +42,8 @@ export default function App() {
         {/* `index` = la ruta del padre tal cual, o sea "/" */}
         <Route index element={<Inicio />} />
         <Route path="/empleados" element={<Empleados />} />
+        <Route path="/stock" element={<Stock />} />
+        <Route path="/caja" element={<Caja />} />
         <Route path="/mas" element={<Mas />} />
 
         <Route
@@ -59,16 +63,6 @@ export default function App() {
               titulo="Ventas"
               fase={6}
               descripcion="Pedidos con pagos y entregas parciales, deudores y ladrillos por entregar."
-            />
-          }
-        />
-        <Route
-          path="/caja"
-          element={
-            <EnConstruccion
-              titulo="Caja"
-              fase={4}
-              descripcion="Balance del mes, gastos por categoria y los ingresos que generan los pagos de ventas."
             />
           }
         />

@@ -164,7 +164,12 @@ export async function registrarCompra({ material, cantidad, monto, fecha, descri
   }
 
   return conTransaccion(async (session) => {
-    const unidad = esArcilla(material) ? `${cantidad} camion(es)` : `${cantidad} ${config.unidadLena}`;
+    // Formateado a la paraguaya: 2,5 y no 2.5. El texto lo va a leer el dueno
+    // en la pantalla de caja, asi que se escribe como se escribe acá.
+    const numero = new Intl.NumberFormat('es-PY', { maximumFractionDigits: 2 }).format(cantidad);
+    const unidad = esArcilla(material)
+      ? `${numero} camion(es)`
+      : `${numero} ${config.unidadLena}`;
     const detalle = descripcion || `Compra de ${unidad}`;
 
     // 1) El egreso de caja. Se crea primero para tener su id y poder
