@@ -77,3 +77,71 @@ export async function desconectarBaseDeDatos() {
   await mongoose.connection.close();
   console.log('[mongo] Conexion cerrada.');
 }
+
+// -----------------------------------------------------------------------------
+// TRANSACCIONES — el "todo o nada"
+// -----------------------------------------------------------------------------
+// Una transaccion agrupa varias escrituras en la base y garantiza que pasen
+// TODAS o NINGUNA.
+//
+// Por que hace falta: registrar una compra de arcilla son cuatro escrituras
+// (sumar el stock, anotar el movimiento en el historial, crear el egreso de
+// caja, guardar la compra). Si el servidor se cae despues de la segunda, sin
+// transaccion te queda stock sumado que nadie pago. Los numeros dejan de
+// cerrar y no hay forma de saber cual falto.
+//
+// Con transaccion, si algo falla la base deshace sola todo lo anterior.
+//
+// LETRA CHICA: MongoDB solo permite transacciones en "replica sets" (varias
+// copias de la base coordinadas). Atlas lo es siempre, y los tests levantan
+// una base en memoria configurada como replica set justamente por esto. Un
+// mongod suelto instalado a mano NO sirve.
+// -----------------------------------------------------------------------------
+
+/**
+ * Ejecuta `trabajo` dentro de una transaccion.
+ *
+ * A `trabajo` se le pasa la "sesion", que hay que reenviar a CADA operacion de
+ * base que se haga adentro:
+ *
+ *     await conTransaccion(async (session) => {
+ *       await Inventory.updateOne(filtro, cambio, { session });
+ *       await InventoryMovement.create([datos], { session });
+ *     });
+ *
+ * Si te olvidas de pasar `session` en alguna, esa escritura queda FUERA de la
+ * transaccion y no se deshace si el resto falla. Es el error tipico y no avisa.
+ *
+ * Ojo con `create`: dentro de una transaccion hay que llamarlo con un ARRAY
+ * (`create([datos], { session })`), porque la forma de un solo objeto ignora
+ * las opciones.
+ *
+ * @template T
+ * @param {(session: import('mongoose').ClientSession) => Promise<T>} trabajo
+ * @returns {Promise<T>}
+ */
+export async function conTransaccion(trabajo) {
+  const session = await mongoose.startSession();
+  try {
+    let resultado;
+    // withTransaction ademas reintenta solo si la base devuelve un error
+    // pasajero (por ejemplo, dos pedidos tocando el mismo documento).
+    await session.withTransaction(async () => {
+      resultado = await trabajo(session);
+    });
+    return resultado;
+  } catch (error) {
+    // Mensaje claro para el error mas probable al configurar el entorno.
+    if (/Transaction numbers are only allowed|replica set/i.test(error.message)) {
+      throw new Error(
+        'Esta operacion necesita transacciones, y tu MongoDB no es un replica set. ' +
+          'Usa MongoDB Atlas (lo es siempre) o levanta mongod con --replSet.',
+      );
+    }
+    throw error;
+  } finally {
+    // endSession libera la conexion. Sin esto se van acumulando sesiones
+    // abiertas hasta agotar el limite del servidor.
+    await session.endSession();
+  }
+}

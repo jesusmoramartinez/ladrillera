@@ -10,7 +10,8 @@
     "start": "node src/server.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "crear-usuario": "node scripts/crear-usuario.js"
+    "crear-usuario": "node scripts/crear-usuario.js",
+    "seed": "node scripts/seed.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

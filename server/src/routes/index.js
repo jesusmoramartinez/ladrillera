@@ -17,6 +17,13 @@ import { Router } from 'express';
 import healthRoutes from './health.routes.js';
 import authRoutes from './auth.routes.js';
 import employeeRoutes from './employee.routes.js';
+import {
+  categoryRouter,
+  inventoryRouter,
+  priceListRouter,
+  settingsRouter,
+  transactionRouter,
+} from './inventory.routes.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 
 const router = Router();
@@ -39,6 +46,11 @@ router.use('/auth', authRoutes);
 router.use(requireAuth);
 
 router.use('/employees', employeeRoutes);
+router.use('/inventory', inventoryRouter);
+router.use('/transactions', transactionRouter);
+router.use('/categories', categoryRouter);
+router.use('/price-lists', priceListRouter);
+router.use('/settings', settingsRouter);
 
 // Proximas fases (ya nacen protegidas):
 // router.use('/productions', productionsRoutes);   // fase 5
