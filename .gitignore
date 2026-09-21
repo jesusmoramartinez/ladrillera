@@ -1,0 +1,25 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (SECRETOS: nunca se suben)
+.env
+.env.local
+.env.*.local
+
+# Builds
+dist/
+build/
+
+# Tests / cobertura
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Editores y sistema operativo
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

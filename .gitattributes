@@ -1,0 +1,12 @@
+# Normaliza los finales de linea: en el repositorio siempre se guardan con LF.
+# Evita que Windows (CRLF) y Linux (LF) generen diferencias falsas en los diffs.
+* text=auto eol=lf
+
+# Archivos binarios: Git no debe tocarlos.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
