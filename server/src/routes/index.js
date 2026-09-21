@@ -16,6 +16,7 @@
 import { Router } from 'express';
 import healthRoutes from './health.routes.js';
 import authRoutes from './auth.routes.js';
+import employeeRoutes from './employee.routes.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 
 const router = Router();
@@ -37,8 +38,9 @@ router.use('/auth', authRoutes);
 // ---------------------------------------------------------------------------
 router.use(requireAuth);
 
+router.use('/employees', employeeRoutes);
+
 // Proximas fases (ya nacen protegidas):
-// router.use('/employees', employeesRoutes);       // fase 3
 // router.use('/productions', productionsRoutes);   // fase 5
 // router.use('/sales', salesRoutes);               // fase 6
 

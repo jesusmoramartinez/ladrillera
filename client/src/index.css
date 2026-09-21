@@ -5,8 +5,8 @@
    grande, alto contraste (la app se usa al sol) y todo alcanzable con el pulgar.
 
    "Mobile-first" significa que los estilos por defecto son los del celular, y
-   las pantallas grandes se tratan como la excepcion. Al reves de lo habitual,
-   pero es lo correcto cuando el 99 % del uso es en un telefono.
+   las pantallas grandes son la excepcion. Al reves de lo habitual, pero es lo
+   correcto cuando el 99 % del uso es en un telefono.
 
    Las variables (--algo) estan definidas en un solo lugar: cambiar el color
    principal de toda la app es cambiar una linea.
@@ -20,12 +20,14 @@
   --color-borde: #d7dbe2;
   --color-primario: #b2452a;        /* terracota: color de ladrillo */
   --color-primario-oscuro: #8d3520;
+  --color-primario-suave: #fbeeea;
   --color-error: #b3261e;
   --color-error-fondo: #fdecea;
 
   --radio: 12px;
   --alto-tactil: 52px;              /* > 48 px, el minimo recomendado */
   --espacio: 16px;
+  --alto-barra: 64px;
 
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-size: 17px;                  /* base grande, se lee bien al sol */
@@ -44,11 +46,22 @@ body {
   min-height: 100dvh;               /* dvh = alto real, sin la barra del navegador */
 }
 
-/* --- Contenedores --- */
+/* --- Layout general --------------------------------------------------- */
 
-.pantalla {
+.layout {
+  min-height: 100dvh;
+  /* Reservamos abajo el alto de la barra MAS el area segura del celular
+     (la franja del gesto de inicio en los iPhone sin boton). Sin esto, el
+     ultimo elemento de la lista queda tapado por la barra. */
+  padding-bottom: calc(var(--alto-barra) + env(safe-area-inset-bottom, 0px));
+}
+
+.layout-contenido {
   max-width: 480px;                 /* en desktop no se estira a lo ancho */
   margin: 0 auto;
+}
+
+.pantalla {
   padding: var(--espacio);
   display: flex;
   flex-direction: column;
@@ -67,12 +80,16 @@ body {
   background: var(--color-superficie);
   border: 1px solid var(--color-borde);
   border-radius: var(--radio);
-  padding: 24px;
+  padding: 20px;
   width: 100%;
-  max-width: 420px;
   display: flex;
   flex-direction: column;
   gap: var(--espacio);
+}
+
+.pantalla-centrada .tarjeta {
+  max-width: 420px;
+  padding: 24px;
 }
 
 .cabecera {
@@ -82,7 +99,49 @@ body {
   gap: var(--espacio);
 }
 
-/* --- Texto --- */
+/* --- Barra de navegacion inferior -------------------------------------- */
+
+.barra-inferior {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  background: var(--color-superficie);
+  border-top: 1px solid var(--color-borde);
+  /* Empuja el contenido por encima de la franja del gesto en iPhone. */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.barra-item {
+  flex: 1;                          /* los cinco ocupan lo mismo */
+  min-height: var(--alto-barra);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--color-texto-tenue);
+  font-size: 0.72rem;
+}
+
+.barra-item--activo {
+  color: var(--color-primario);
+  font-weight: 600;
+}
+
+.barra-icono {
+  width: 24px;
+  height: 24px;
+}
+
+.barra-texto {
+  line-height: 1;
+}
+
+/* --- Texto -------------------------------------------------------------- */
 
 .titulo {
   font-size: 1.6rem;
@@ -100,7 +159,13 @@ body {
   font-size: 0.95rem;
 }
 
-/* --- Formularios --- */
+.enlace {
+  color: var(--color-primario);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* --- Formularios -------------------------------------------------------- */
 
 .campo {
   display: flex;
@@ -129,14 +194,111 @@ body {
   outline-offset: 1px;
 }
 
+.campo-input--error {
+  border-color: var(--color-error);
+}
+
 .campo-con-boton {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* --- Botones --- */
+/* El "Gs" fijo al costado del campo de plata. */
+.campo-con-prefijo {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
+.campo-prefijo {
+  position: absolute;
+  left: 14px;
+  color: var(--color-texto-tenue);
+  font-size: 0.95rem;
+  pointer-events: none;             /* tocar el "Gs" enfoca el campo */
+}
+
+.campo-input--con-prefijo {
+  padding-left: 42px;
+}
+
+.campo-ayuda {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-texto-tenue);
+}
+
+.campo-error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-error);
+}
+
+.campo-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.campo-checkbox input {
+  /* Un checkbox del tamano por defecto (13 px) es imposible de acertar con el
+     dedo. 24 px es el minimo comodo. */
+  width: 24px;
+  height: 24px;
+  margin: 2px 0 0;
+  accent-color: var(--color-primario);
+  flex-shrink: 0;
+}
+
+.campo-checkbox .campo-ayuda {
+  display: block;
+}
+
+/* --- Botones ------------------------------------------------------------ */
+
+.boton {
+  min-height: var(--alto-tactil);
+  padding: 0 18px;
+  border-radius: var(--radio);
+  border: 1px solid transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.boton--ancho {
+  width: 100%;
+}
+
+.boton--primario {
+  background: var(--color-primario);
+  color: #fff;
+}
+
+.boton--primario:hover:not(:disabled) {
+  background: var(--color-primario-oscuro);
+}
+
+.boton--secundario {
+  background: var(--color-superficie);
+  color: var(--color-texto);
+  border-color: var(--color-borde);
+}
+
+.boton--peligro {
+  background: var(--color-error);
+  color: #fff;
+}
+
+.boton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* Se mantiene para el formulario de login, que es anterior a <BotonGrande>. */
 .boton-grande {
   min-height: var(--alto-tactil);
   border: none;
@@ -168,19 +330,107 @@ body {
   cursor: pointer;
 }
 
+/* Las acciones comunes van en gris oscuro y NO en el color principal.
+   Motivo: el terracota de la marca y el rojo de peligro son casi el mismo
+   color a 14 px. Si "Editar" y "Eliminar" se ven iguales, tarde o temprano se
+   toca el que no era. Dejando en color SOLO la accion destructiva, la
+   diferencia se ve de reojo. */
 .boton-texto {
-  min-height: var(--alto-tactil);
-  padding: 0 12px;
+  min-height: 44px;
+  padding: 0 10px;
   border: none;
   background: none;
-  color: var(--color-primario);
-  font-size: 0.95rem;
+  color: var(--color-texto);
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
 }
 
-/* --- Avisos --- */
+.boton-texto--peligro {
+  color: var(--color-error);
+}
+
+/* En el login, "Ver" si es la accion principal del campo. */
+.campo-con-boton .boton-texto {
+  color: var(--color-primario);
+}
+
+.fila-botones {
+  display: flex;
+  gap: 12px;
+}
+
+/* --- Listas ------------------------------------------------------------- */
+
+.lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lista-fila {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lista-fila--apagada {
+  opacity: 0.62;
+}
+
+.lista-fila-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lista-fila-titulo {
+  margin: 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lista-fila-acciones {
+  display: flex;
+  gap: 4px;
+  /* Pegados a la derecha, que es donde cae el pulgar. */
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--color-borde);
+  padding-top: 4px;
+}
+
+.lista-enlace {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.etiqueta {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-texto-tenue);
+  background: var(--color-fondo);
+  border: 1px solid var(--color-borde);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+/* --- Avisos ------------------------------------------------------------- */
 
 .alerta {
   margin: 0;
@@ -191,7 +441,7 @@ body {
   font-size: 0.95rem;
 }
 
-/* --- Listas de datos --- */
+/* --- Listas de datos (clave/valor) -------------------------------------- */
 
 .lista-datos {
   margin: 0;
@@ -213,4 +463,30 @@ body {
 .lista-datos dd {
   margin: 0;
   font-weight: 600;
+}
+
+/* --- Formularios y carteles superpuestos -------------------------------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;                         /* atajo de top/right/bottom/left: 0 */
+  z-index: 20;                      /* por encima de la barra inferior */
+  background: rgb(20 24 31 / 45%);
+  display: flex;
+  align-items: flex-end;            /* en celular sube desde abajo */
+  justify-content: center;
+  padding: var(--espacio);
+  overflow-y: auto;
+}
+
+.overlay-panel {
+  max-width: 420px;
+  margin-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* En pantallas altas o de escritorio, centrado en vez de pegado abajo. */
+@media (min-height: 700px) {
+  .overlay {
+    align-items: center;
+  }
 }

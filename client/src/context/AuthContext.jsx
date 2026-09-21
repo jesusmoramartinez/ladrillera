@@ -11,11 +11,10 @@
 // Este context expone: usuario, cargando, iniciarSesion(), cerrarSesion().
 // -----------------------------------------------------------------------------
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { borrarToken, guardarToken, leerToken, alVencerSesion } from '../api/client.js';
 import * as authApi from '../api/auth.js';
-
-const AuthContext = createContext(null);
+import { AuthContext } from './contextoAuth.js';
 
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
@@ -77,13 +76,4 @@ export function AuthProvider({ children }) {
   );
 
   return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>;
-}
-
-/** Hook para usar el context: const { usuario, cerrarSesion } = useAuth(); */
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth se tiene que usar adentro de <AuthProvider>');
-  }
-  return context;
 }

@@ -34,8 +34,7 @@ async function iniciar() {
         console.error(`
 [api] El puerto ${env.port} ya esta ocupado.`);
         console.error('[api] Seguramente hay otro servidor corriendo. Cerralo, o');
-        console.error('[api] cambia PORT en server/.env.
-');
+        console.error('[api] cambia PORT en server/.env.');
         process.exit(1);
       }
       throw error;

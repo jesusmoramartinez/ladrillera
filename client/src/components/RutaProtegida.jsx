@@ -12,7 +12,7 @@
 // -----------------------------------------------------------------------------
 
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../context/useAuth.js';
 
 export function RutaProtegida({ children }) {
   const { usuario, cargando } = useAuth();

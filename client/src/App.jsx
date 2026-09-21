@@ -2,17 +2,26 @@
 // App.jsx — El mapa de pantallas
 // -----------------------------------------------------------------------------
 // React Router mira la URL y decide que componente mostrar, SIN recargar la
-// pagina. Por eso se llama SPA (Single Page Application): el navegador carga
-// el HTML una sola vez y despues solo cambia lo que se ve.
+// pagina (SPA: Single Page Application).
 //
-// Fijate que /login esta suelta y todo lo demas va envuelto en
-// <RutaProtegida>: ese es el "sin login no se accede a nada" del frontend.
+// Fijate la forma del arbol: hay UNA ruta padre que envuelve a todas las
+// demas. Esa ruta padre pone la proteccion de sesion y el layout con la barra
+// inferior, y las hijas se dibujan adentro del <Outlet /> del Layout.
+//
+// Ventaja de anidar asi (rutas anidadas):
+//   - La proteccion se escribe UNA vez, no una por pantalla. Agregar una
+//     pantalla nueva adentro ya la deja protegida.
+//   - La barra inferior no se vuelve a montar al cambiar de pantalla.
 // -----------------------------------------------------------------------------
 
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { Layout } from './components/Layout.jsx';
 import { RutaProtegida } from './components/RutaProtegida.jsx';
+import Empleados from './pages/Empleados.jsx';
+import EnConstruccion from './pages/EnConstruccion.jsx';
 import Inicio from './pages/Inicio.jsx';
 import Login from './pages/Login.jsx';
+import Mas from './pages/Mas.jsx';
 
 export default function App() {
   return (
@@ -20,15 +29,50 @@ export default function App() {
       {/* Publica */}
       <Route path="/login" element={<Login />} />
 
-      {/* Protegidas */}
+      {/* Todo lo de adentro exige sesion y comparte el layout */}
       <Route
-        path="/"
         element={
           <RutaProtegida>
-            <Inicio />
+            <Layout />
           </RutaProtegida>
         }
-      />
+      >
+        {/* `index` = la ruta del padre tal cual, o sea "/" */}
+        <Route index element={<Inicio />} />
+        <Route path="/empleados" element={<Empleados />} />
+        <Route path="/mas" element={<Mas />} />
+
+        <Route
+          path="/produccion"
+          element={
+            <EnConstruccion
+              titulo="Produccion"
+              fase={5}
+              descripcion="Cargar los ladrillos del dia y marcar que empleados trabajaron. Descuenta arcilla y suma al stock."
+            />
+          }
+        />
+        <Route
+          path="/ventas"
+          element={
+            <EnConstruccion
+              titulo="Ventas"
+              fase={6}
+              descripcion="Pedidos con pagos y entregas parciales, deudores y ladrillos por entregar."
+            />
+          }
+        />
+        <Route
+          path="/caja"
+          element={
+            <EnConstruccion
+              titulo="Caja"
+              fase={4}
+              descripcion="Balance del mes, gastos por categoria y los ingresos que generan los pagos de ventas."
+            />
+          }
+        />
+      </Route>
 
       {/* Cualquier otra URL vuelve al inicio */}
       <Route path="*" element={<Navigate to="/" replace />} />

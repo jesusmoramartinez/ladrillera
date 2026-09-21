@@ -36,6 +36,24 @@ Ver `.env.example`. El archivo `.env` real no se versiona.
 
 ## Endpoints
 
+Todo lo que cuelga de `/api` requiere token, salvo `/api/health` y
+`/api/auth/login` (ver la "barrera" en `src/routes/index.js`).
+
 | Método | Ruta | Descripción |
 |---|---|---|
 | GET | `/api/health` | Estado del servicio y de la base de datos |
+| POST | `/api/auth/login` | Inicio de sesión, devuelve el token |
+| GET | `/api/auth/me` | Datos del usuario del token |
+| POST | `/api/auth/cambiar-password` | Cambio de contraseña |
+| GET | `/api/employees` | Listar (`?activo=true` filtra) |
+| POST | `/api/employees` | Crear |
+| PATCH | `/api/employees/:id` | Editar los campos que se manden |
+| DELETE | `/api/employees/:id` | Soft delete |
+
+## Scripts
+
+```bash
+npm run dev --workspace server             # servidor con recarga automática
+npm test                                   # tests (levanta un MongoDB descartable)
+npm run crear-usuario --workspace server   # crea el usuario dueño
+```

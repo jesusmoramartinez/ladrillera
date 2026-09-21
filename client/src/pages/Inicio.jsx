@@ -1,17 +1,22 @@
 // -----------------------------------------------------------------------------
-// Inicio.jsx — Pantalla de inicio (provisoria)
+// Inicio.jsx — Pantalla de inicio (todavia provisoria)
 // -----------------------------------------------------------------------------
-// El Inicio de verdad (balance del mes, ladrillos de la semana, alerta de
-// arcilla) se construye en la fase 9. Por ahora esta pantalla sirve para
-// comprobar que la sesion funciona: si la ves, tu token es valido.
+// El Inicio de verdad (balance del mes, ladrillos de la semana, alerta roja de
+// arcilla, por cobrar, por entregar) se arma en la fase 9, cuando ya existan
+// los datos que tiene que mostrar.
+//
+// Por ahora muestra el estado del sistema, que sirve para confirmar de un
+// vistazo que la sesion y la base estan bien.
 // -----------------------------------------------------------------------------
 
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { api } from '../api/client.js';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../context/useAuth.js';
+import { formatearFecha, hoyISO } from '../utils/format.js';
 
 export function Inicio() {
-  const { usuario, cerrarSesion } = useAuth();
+  const { usuario } = useAuth();
   const [salud, setSalud] = useState(null);
 
   useEffect(() => {
@@ -23,14 +28,9 @@ export function Inicio() {
 
   return (
     <div className="pantalla">
-      <header className="cabecera">
-        <div>
-          <p className="texto-tenue">Sesion iniciada como</p>
-          <h1 className="titulo">{usuario?.username}</h1>
-        </div>
-        <button className="boton-secundario" onClick={cerrarSesion}>
-          Salir
-        </button>
+      <header>
+        <p className="texto-tenue">Hola, {usuario?.username}</p>
+        <h1 className="titulo">{formatearFecha(hoyISO())}</h1>
       </header>
 
       <section className="tarjeta">
@@ -48,9 +48,20 @@ export function Inicio() {
       </section>
 
       <section className="tarjeta">
-        <h2 className="subtitulo">Proximos pasos</h2>
+        <h2 className="subtitulo">Lo que ya podes hacer</h2>
         <p className="texto-tenue">
-          Fase 3: barra de navegacion inferior y alta de empleados.
+          Cargar a los empleados con su tarifa por millar. Es lo que necesita la
+          produccion diaria para calcular cuanto cobra cada uno.
+        </p>
+        <Link to="/empleados" className="enlace">
+          Ir a Empleados
+        </Link>
+      </section>
+
+      <section className="tarjeta">
+        <h2 className="subtitulo">Proximo paso</h2>
+        <p className="texto-tenue">
+          Fase 4: stock de arcilla, lena y ladrillos, compras de material y caja.
         </p>
       </section>
     </div>
