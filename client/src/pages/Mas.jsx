@@ -17,7 +17,7 @@ const secciones = [
   { a: '/empleados', texto: 'Empleados', detalle: 'Nombres, roles y tarifas' },
   { a: '/stock', texto: 'Stock', detalle: 'Arcilla, lena y ladrillos' },
   { a: '/clientes', texto: 'Clientes', detalle: 'Lista y saldos' },
-  { texto: 'Adelantos', detalle: 'Plata entregada a cuenta', fase: 7 },
+  { a: '/adelantos', texto: 'Adelantos', detalle: 'Plata entregada a cuenta' },
   { texto: 'Liquidacion', detalle: 'Sueldos de la semana', fase: 8 },
   { texto: 'Ajustes', detalle: 'Listas de precio, categorias, contrasena', fase: 10 },
 ];

@@ -11,6 +11,7 @@ qué se construyó, **para qué sirve cada pieza** y por qué se eligió así.
 | 4 | [fase-4-stock-y-caja.md](fase-4-stock-y-caja.md) | Transacciones de MongoDB, stock, caja, categorías, seed |
 | 5 | [fase-5-produccion.md](fase-5-produccion.md) | Snapshot de tarifas, semana de pago, descuento de arcilla |
 | 6 | [fase-6-ventas.md](fase-6-ventas.md) | Dato derivado vs guardado, pagos y entregas parciales, físico/comprometido/libre, agregaciones |
+| 7 | [fase-7-adelantos.md](fase-7-adelantos.md) | Reutilizar piezas ya hechas, copiar vs apuntar (otra vez), lo que a propósito no se valida |
 
 > La Fase 1 del plan (Express, `.env`, middleware de errores, `/api/health`) quedó
 > cubierta dentro de la nota de la Fase 0.

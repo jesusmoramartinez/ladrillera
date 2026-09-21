@@ -17,6 +17,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout.jsx';
 import { RutaProtegida } from './components/RutaProtegida.jsx';
+import Adelantos from './pages/Adelantos.jsx';
 import Caja from './pages/Caja.jsx';
 import Clientes from './pages/Clientes.jsx';
 import Empleados from './pages/Empleados.jsx';
@@ -56,14 +57,15 @@ export default function App() {
             entra acá, y la pantalla lee ese "abc123" con useParams(). */}
         <Route path="/ventas/:id" element={<VentaDetalle />} />
         <Route path="/clientes" element={<Clientes />} />
+        <Route path="/adelantos" element={<Adelantos />} />
 
         <Route
-          path="/adelantos"
+          path="/liquidacion"
           element={
             <EnConstruccion
-              titulo="Adelantos"
-              fase={7}
-              descripcion="Plata entregada a cuenta, con su egreso de caja al instante."
+              titulo="Liquidacion"
+              fase={8}
+              descripcion="Sueldos de la semana: bruto, adelantos, deuda arrastrada y neto a pagar."
             />
           }
         />

@@ -77,6 +77,9 @@ Todo lo que cuelga de `/api` requiere token, salvo `/api/health` y
 | DELETE | `/api/sales/:id/pagos/:pagoId` | Anular cobro (anula su ingreso) |
 | POST | `/api/sales/:id/entregas` | Registrar entrega (saca ladrillos del patio) |
 | DELETE | `/api/sales/:id/entregas/:entregaId` | Anular entrega (los devuelve) |
+| GET | `/api/advances?semana=YYYY-MM-DD` | Adelantos de la semana + resumen por empleado |
+| POST | `/api/advances` | Dar adelanto (genera el egreso de caja) |
+| DELETE | `/api/advances/:id` | Anular (anula su egreso) |
 
 ## Scripts
 

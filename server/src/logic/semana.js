@@ -131,3 +131,28 @@ const NOMBRES_DIA = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viern
 export function nombreDelDia(fechaISO) {
   return NOMBRES_DIA[diaDeLaSemana(fechaISO)];
 }
+
+/**
+ * El dia de HOY en Paraguay, como "2026-09-21".
+ *
+ * Vivia adentro de production.controller.js, y al necesitarla tambien el de
+ * adelantos se mudo acá: cuando la misma funcion hace falta en dos lugares,
+ * copiarla es garantizar que algun dia una de las dos copia se arregle y la
+ * otra no.
+ *
+ * El truco: el formato 'en-CA' (Canada en ingles) escribe las fechas como
+ * "2026-09-21", que es exactamente el formato que necesitamos, y `timeZone`
+ * hace la conversion horaria.
+ *
+ * Esto importa de verdad: el servidor suele correr en UTC, asi que a las 22 h
+ * de Paraguay ya estaria en el dia siguiente y devolveria la semana
+ * equivocada.
+ */
+export function hoyEnParaguay() {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Asuncion',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date());
+}

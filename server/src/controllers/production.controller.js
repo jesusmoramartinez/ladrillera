@@ -2,6 +2,7 @@
 // production.controller.js — HTTP <-> servicio de produccion
 // -----------------------------------------------------------------------------
 
+import { hoyEnParaguay } from '../logic/semana.js';
 import * as productionService from '../services/production.service.js';
 
 export async function getProductions(req, res, next) {
@@ -30,20 +31,4 @@ export async function deleteProduction(req, res, next) {
   } catch (error) {
     next(error);
   }
-}
-
-/**
- * El dia de hoy en Paraguay, como "2026-09-21".
- *
- * El formato 'en-CA' escribe las fechas asi, y `timeZone` hace la conversion.
- * Sin la zona, el servidor (que suele correr en UTC) a las 22 h ya estaria en
- * el dia siguiente y devolveria la semana equivocada.
- */
-function hoyEnParaguay() {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'America/Asuncion',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(new Date());
 }
