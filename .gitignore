@@ -23,3 +23,6 @@ yarn-error.log*
 .idea/
 .DS_Store
 Thumbs.db
+
+# Respaldos de la base: datos reales del cliente, NUNCA a Git
+server/respaldos/

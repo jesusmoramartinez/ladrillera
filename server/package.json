@@ -11,7 +11,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "crear-usuario": "node scripts/crear-usuario.js",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "respaldar": "node scripts/respaldar.js",
+    "restaurar": "node scripts/restaurar.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

@@ -95,9 +95,20 @@ npm run dev --workspace server             # servidor con recarga automática
 npm test                                   # tests (levanta un MongoDB descartable)
 npm run crear-usuario --workspace server   # crea el usuario dueño
 npm run seed --workspace server            # datos iniciales (categorías, listas, materiales)
+npm run respaldar --workspace server       # copia de toda la base a server/respaldos/
+npm run restaurar --workspace server -- <archivo>   # vuelve la base a un respaldo
 ```
 
 Para preparar la base de producción y entregarle el sistema al cliente, ver
 [`../docs/ENTREGA.md`](../docs/ENTREGA.md). Resumen: lo único que hay que correr
 a mano es `crear-usuario`; el resto lo hace el asistente de configuración
 inicial la primera vez que el dueño entra.
+
+Para trabajar sobre el sistema ya entregado —recibir cambios, publicarlos sin
+romper nada, respaldos y mantenimiento— ver
+[`../docs/OPERACION.md`](../docs/OPERACION.md).
+
+> **Atlas gratuito (M0) no hace respaldos.** Desde que la base tiene datos
+> reales del cliente, `respaldar` va antes de cada cambio que publiques y todos
+> los sábados después de liquidar. La carpeta `server/respaldos/` está en
+> `.gitignore`: son datos del cliente y no van a Git.
