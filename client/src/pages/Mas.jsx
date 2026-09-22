@@ -19,7 +19,7 @@ const secciones = [
   { a: '/clientes', texto: 'Clientes', detalle: 'Lista y saldos' },
   { a: '/adelantos', texto: 'Adelantos', detalle: 'Plata entregada a cuenta' },
   { a: '/liquidacion', texto: 'Liquidacion', detalle: 'Sueldos de la semana' },
-  { texto: 'Ajustes', detalle: 'Listas de precio, categorias, contrasena', fase: 10 },
+  { a: '/ajustes', texto: 'Ajustes', detalle: 'Precios, categorias, contrasena' },
 ];
 
 export function Mas() {

@@ -15,6 +15,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
 import App from './App.jsx';
+import { registrarServiceWorker } from './pwa.js';
 import './index.css';
 
 createRoot(document.getElementById('root')).render(
@@ -26,3 +27,5 @@ createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </StrictMode>,
 );
+
+registrarServiceWorker();

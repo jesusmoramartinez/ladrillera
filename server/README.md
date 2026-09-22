@@ -85,6 +85,8 @@ Todo lo que cuelga de `/api` requiere token, salvo `/api/health` y
 | GET | `/api/payrolls` | Historial de semanas liquidadas |
 | GET | `/api/payrolls/:id/ticket/:employeeId` | Ticket + texto y número listos para WhatsApp |
 | GET | `/api/dashboard` | Todos los datos del Inicio en un solo pedido |
+| GET | `/api/setup` | Si la configuración inicial ya se hizo |
+| POST | `/api/setup` | Guardar toda la configuración inicial (una sola vez) |
 
 ## Scripts
 
@@ -94,3 +96,8 @@ npm test                                   # tests (levanta un MongoDB descartab
 npm run crear-usuario --workspace server   # crea el usuario dueño
 npm run seed --workspace server            # datos iniciales (categorías, listas, materiales)
 ```
+
+Para preparar la base de producción y entregarle el sistema al cliente, ver
+[`../docs/ENTREGA.md`](../docs/ENTREGA.md). Resumen: lo único que hay que correr
+a mano es `crear-usuario`; el resto lo hace el asistente de configuración
+inicial la primera vez que el dueño entra.

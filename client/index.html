@@ -2,10 +2,25 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
     <title>Ladrillera</title>
+    <meta name="description" content="Gestion de la fabrica: produccion, ventas, caja y sueldos." />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- El manifest es lo que convierte esta web en una app instalable: dice
+         como se llama, con que icono y de que color se abre. -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Pinta de terracota la barra de arriba del celular, para que no se vea
+         el borde del navegador cuando la app esta abierta. -->
     <meta name="theme-color" content="#b2452a" />
+
+    <!-- iPhone: Safari ignora casi todo el manifest y necesita estas tres. -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Ladrillera" />
+    <link rel="apple-touch-icon" href="/icono-192.png" />
   </head>
   <body>
     <div id="root"></div>

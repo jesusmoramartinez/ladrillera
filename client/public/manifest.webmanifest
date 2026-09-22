@@ -1,0 +1,38 @@
+{
+  "name": "Ladrillera",
+  "short_name": "Ladrillera",
+  "description": "Gestion de la fabrica: produccion, ventas, caja y sueldos.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f5f7",
+  "theme_color": "#b2452a",
+  "lang": "es-PY",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icono-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icono-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icono-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Cargar produccion", "url": "/produccion" },
+    { "name": "Nueva venta", "url": "/ventas" },
+    { "name": "Caja", "url": "/caja" }
+  ]
+}

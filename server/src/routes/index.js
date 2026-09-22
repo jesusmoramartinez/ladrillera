@@ -28,6 +28,7 @@ import productionRoutes from './production.routes.js';
 import advanceRoutes from './advance.routes.js';
 import dashboardRoutes from './dashboard.routes.js';
 import payrollRoutes from './payroll.routes.js';
+import setupRoutes from './setup.routes.js';
 import { clientRouter, saleRouter } from './sale.routes.js';
 import { requireAuth } from '../middleware/requireAuth.js';
 
@@ -62,6 +63,7 @@ router.use('/sales', saleRouter);
 router.use('/advances', advanceRoutes);
 router.use('/payrolls', payrollRoutes);
 router.use('/dashboard', dashboardRoutes);
+router.use('/setup', setupRoutes);
 
 
 export default router;

@@ -56,3 +56,37 @@ export async function listarListasPrecio() {
   const { listas } = await api.get('/price-lists');
   return listas;
 }
+
+/** PATCH /api/settings — cambia solo lo que se manda. */
+export async function guardarConfig(cambios) {
+  const { config } = await api.patch('/settings', cambios);
+  return config;
+}
+
+/** POST /api/price-lists */
+export async function crearListaPrecio(datos) {
+  const { lista } = await api.post('/price-lists', datos);
+  return lista;
+}
+
+/** PATCH /api/price-lists/:id — precio, nombre o marcarla predeterminada. */
+export async function editarListaPrecio(id, cambios) {
+  const { lista } = await api.patch(`/price-lists/${id}`, cambios);
+  return lista;
+}
+
+/** DELETE /api/price-lists/:id — baja logica. La predeterminada no se puede. */
+export async function eliminarListaPrecio(id) {
+  return api.del(`/price-lists/${id}`);
+}
+
+/** PATCH /api/categories/:id */
+export async function editarCategoria(id, cambios) {
+  const { categoria } = await api.patch(`/categories/${id}`, cambios);
+  return categoria;
+}
+
+/** DELETE /api/categories/:id — las de sistema no se pueden tocar. */
+export async function eliminarCategoria(id) {
+  return api.del(`/categories/${id}`);
+}

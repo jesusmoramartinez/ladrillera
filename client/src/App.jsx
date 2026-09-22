@@ -15,6 +15,7 @@
 // -----------------------------------------------------------------------------
 
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { Configurado } from './components/Configurado.jsx';
 import { Layout } from './components/Layout.jsx';
 import { RutaProtegida } from './components/RutaProtegida.jsx';
 import Adelantos from './pages/Adelantos.jsx';
@@ -26,6 +27,7 @@ import Liquidacion from './pages/Liquidacion.jsx';
 import Login from './pages/Login.jsx';
 import Produccion from './pages/Produccion.jsx';
 import Mas from './pages/Mas.jsx';
+import Ajustes from './pages/Ajustes.jsx';
 import Stock from './pages/Stock.jsx';
 import VentaDetalle from './pages/VentaDetalle.jsx';
 import Ventas from './pages/Ventas.jsx';
@@ -40,7 +42,12 @@ export default function App() {
       <Route
         element={
           <RutaProtegida>
-            <Layout />
+            {/* Primero quien sos, despues si tu sistema ya esta configurado.
+                Mientras no lo este, Configurado muestra el asistente y ninguna
+                de las rutas de abajo llega a dibujarse. */}
+            <Configurado>
+              <Layout />
+            </Configurado>
           </RutaProtegida>
         }
       >
@@ -60,6 +67,7 @@ export default function App() {
         <Route path="/adelantos" element={<Adelantos />} />
 
         <Route path="/liquidacion" element={<Liquidacion />} />
+        <Route path="/ajustes" element={<Ajustes />} />
       </Route>
 
       {/* Cualquier otra URL vuelve al inicio */}
