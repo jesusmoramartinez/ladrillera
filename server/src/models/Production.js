@@ -105,6 +105,34 @@ const productionSchema = new mongoose.Schema(
   },
 );
 
+/**
+ * Cuantos ladrillos se produjeron entre dos fechas (fase 9).
+ *
+ * Lo usa el Inicio para "los ladrillos de la semana, de lunes a hoy". Va como
+ * agregacion y no trayendo las producciones para sumarlas en JavaScript: se
+ * necesita UN numero, y traer los documentos enteros para tirarlos es lo que
+ * hace que una pantalla tarde.
+ *
+ * Las fechas se comparan como TEXTO: en formato "YYYY-MM-DD" el orden
+ * alfabetico coincide con el cronologico (mismo truco que el balance mensual).
+ *
+ * @param {string} desde  "YYYY-MM-DD", inclusive
+ * @param {string} hasta  "YYYY-MM-DD", inclusive
+ */
+productionSchema.statics.ladrillosEntre = async function ladrillosEntre(desde, hasta) {
+  const [fila] = await this.aggregate([
+    { $match: { deletedAt: null, fecha: { $gte: desde, $lte: hasta } } },
+    { $group: { _id: null, ladrillos: { $sum: '$cantidad' }, dias: { $addToSet: '$fecha' } } },
+  ]);
+
+  return {
+    ladrillos: fila?.ladrillos ?? 0,
+    // $addToSet junta las fechas distintas: si un dia tiene dos producciones
+    // cargadas, cuenta como UN dia trabajado.
+    dias: fila?.dias?.length ?? 0,
+  };
+};
+
 // La consulta de siempre: "las producciones vigentes de este rango de fechas".
 productionSchema.index({ deletedAt: 1, fecha: -1 });
 // Para la liquidacion (fase 8): las producciones de un empleado todavia sin pagar.

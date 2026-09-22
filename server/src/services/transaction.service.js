@@ -190,3 +190,33 @@ export async function anularPorOrigen({ tipo, movimientoId }, session) {
   await movimiento.save({ session });
   return movimiento;
 }
+
+/**
+ * Solo el balance del mes, sin traer los movimientos (fase 9).
+ *
+ * `listarPorMes()` trae TODOS los documentos del mes y los suma en JavaScript,
+ * que esta bien para la pantalla de Caja: ahi los movimientos se muestran de
+ * todos modos.
+ *
+ * Para el Inicio seria un desperdicio. Se necesitan DOS numeros, y traer
+ * trescientos documentos para sumarlos y tirarlos es justo lo que hace que una
+ * pantalla tarde. Esta version hace la cuenta adentro de Mongo y devuelve solo
+ * el resultado.
+ *
+ * @param {string} mes "2026-09"
+ */
+export async function balanceDelMes(mes) {
+  const { desde, hasta } = rangoDelMes(mes);
+
+  const filas = await Transaction.aggregate([
+    { $match: { deletedAt: null, fecha: { $gte: desde, $lte: hasta } } },
+    // Una fila por tipo: { _id: 'ingreso', total: N } y { _id: 'egreso', ... }
+    { $group: { _id: '$tipo', total: { $sum: '$monto' } } },
+  ]);
+
+  const porTipo = Object.fromEntries(filas.map((f) => [f._id, f.total]));
+  const ingresos = porTipo.ingreso ?? 0;
+  const egresos = porTipo.egreso ?? 0;
+
+  return { mes, ingresos, egresos, resultado: ingresos - egresos };
+}

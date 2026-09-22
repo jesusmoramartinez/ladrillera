@@ -770,3 +770,63 @@ body {
   margin-right: 8px;
   vertical-align: -4px;
 }
+
+/* --- Fase 9: el Inicio ---------------------------------------------------- */
+
+/* Una tarjeta que ademas es un link. Hereda el color del texto (si no, todo
+   el contenido saldria azul de link) y solo marca que se puede tocar al
+   apretarla. */
+.tarjeta--enlace {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.08s ease;
+}
+
+.tarjeta--enlace:active {
+  transform: scale(0.99);
+  background: var(--color-primario-suave);
+}
+
+/* La alerta roja tambien lleva a Stock: el dueno la lee y va a cargar la
+   compra. Un aviso que no se puede tocar obliga a buscar la pantalla a mano. */
+.alerta--enlace {
+  display: block;
+  text-decoration: none;
+}
+
+/* El numero protagonista de una tarjeta. Grande de verdad: se lee de un
+   vistazo, al sol, sin acercar el telefono. */
+.dato-grande {
+  margin: 4px 0 0;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+/* La unidad NO va del mismo tamano: "5.000" es el dato y "ladrillos" es la
+   aclaracion. Si fueran iguales, el ojo tendria que leer las dos para
+   encontrar el numero. */
+.dato-grande-unidad {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--color-texto-tenue);
+  margin-top: 2px;
+}
+
+/* Dos tarjetas lado a lado (por cobrar / por entregar). Son dos numeros
+   cortos y relacionados: uno debajo del otro desperdiciaria media pantalla. */
+.fila-tarjetas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espacio);
+}
+
+.fila-tarjetas .tarjeta {
+  margin: 0;
+}
+
+.fila-tarjetas .dato-grande {
+  font-size: 1.35rem;       /* mas chico: entran dos por fila */
+}

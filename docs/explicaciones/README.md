@@ -13,6 +13,7 @@ qué se construyó, **para qué sirve cada pieza** y por qué se eligió así.
 | 6 | [fase-6-ventas.md](fase-6-ventas.md) | Dato derivado vs guardado, pagos y entregas parciales, físico/comprometido/libre, agregaciones |
 | 7 | [fase-7-adelantos.md](fase-7-adelantos.md) | Reutilizar piezas ya hechas, copiar vs apuntar (otra vez), lo que a propósito no se valida |
 | 8 | [fase-8-liquidacion.md](fase-8-liquidacion.md) | Neto y deuda arrastrada, comprobante vs saldo, tickets por WhatsApp |
+| 9 | [fase-9-dashboard.md](fase-9-dashboard.md) | Un endpoint en vez de cinco, agregaciones para no traer documentos de más, coherencia entre pantallas |
 
 > La Fase 1 del plan (Express, `.env`, middleware de errores, `/api/health`) quedó
 > cubierta dentro de la nota de la Fase 0.

@@ -84,6 +84,7 @@ Todo lo que cuelga de `/api` requiere token, salvo `/api/health` y
 | POST | `/api/payrolls/:semana/pagar` | Cerrar la semana: egreso de sueldos + marca lo liquidado |
 | GET | `/api/payrolls` | Historial de semanas liquidadas |
 | GET | `/api/payrolls/:id/ticket/:employeeId` | Ticket + texto y número listos para WhatsApp |
+| GET | `/api/dashboard` | Todos los datos del Inicio en un solo pedido |
 
 ## Scripts
 

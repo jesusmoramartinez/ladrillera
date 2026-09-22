@@ -63,9 +63,18 @@ export function Ventas() {
   const [parametros, setParametros] = useSearchParams();
   const clienteFiltrado = parametros.get('cliente') ?? '';
 
-  // Con un cliente filtrado arrancamos en "Todas": el dueno entro a ver TODO
-  // lo de esa persona, no solo lo que debe.
-  const [pestana, setPestana] = useState(clienteFiltrado ? 'todas' : 'por-cobrar');
+  // El Inicio (fase 9) manda acá con ?estado=por-cobrar o ?estado=por-entregar,
+  // segun la tarjeta que se toco. Si llega uno de esos, se abre esa pestana.
+  const estadoPedido = parametros.get('estado');
+  const pestanaInicial = PESTANAS.some((p) => p.clave === estadoPedido)
+    ? estadoPedido
+    : // Con un cliente filtrado arrancamos en "Todas": el dueno entro a ver
+      // TODO lo de esa persona, no solo lo que debe.
+      clienteFiltrado
+      ? 'todas'
+      : 'por-cobrar';
+
+  const [pestana, setPestana] = useState(pestanaInicial);
 
   const [ventas, setVentas] = useState([]);
   const [totales, setTotales] = useState({ porCobrar: 0, porEntregar: 0 });
